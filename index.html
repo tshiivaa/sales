@@ -188,6 +188,66 @@
                 height: 18px;
             }
         }
+
+        * * * * * * * * * * * * * * * SalesTAB * * * * * * * * * * * * * * * * * * * * * * * * * *
+            /* Table Container */
+        #salesTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Table Header */
+        #salesTable thead {
+            background: linear-gradient(135deg, #ff4e50, #f9d423);
+            color: #fff;
+        }
+
+        #salesTable th {
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        /* Table Body */
+        #salesTable tbody tr {
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        #salesTable tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        #salesTable tbody tr:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.01);
+        }
+
+        #salesTable td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.95rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #salesTable {
+                font-size: 0.9rem;
+            }
+
+            #salesTable th,
+            #salesTable td {
+                padding: 10px 12px;
+            }
+        }
     </style>
 </head>
 <body>
