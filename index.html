@@ -5,138 +5,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shein Sales Tracker</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* General Reset */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f9d423, #ff4e50);
+            color: #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: #f4f4f9;
+            justify-content: center;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        /* Header Styling */
         h1 {
-            text-align: center;
-            color: #333;
-            margin-top: 20px;
-            font-size: 2rem;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
         }
 
+        /* Container Styling */
         .container {
-            width: 80%;
+            width: 90%;
             max-width: 1200px;
-            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
 
+        /* Search Bar Styling */
+        #searchBar {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        #searchBar:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Table Styling */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
             font-size: 1rem;
+            color: #fff;
         }
 
         th, td {
             padding: 12px 15px;
-            border: 1px solid #ddd;
             text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
         }
 
         th {
-            background-color: #f4f4f4;
-            color: #333;
+            background: rgba(255, 255, 255, 0.1);
             font-weight: bold;
         }
 
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background: rgba(255, 255, 255, 0.05);
         }
 
         tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        form {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        input[type="text"], input[type="number"], input[type="tel"] {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 250px;
-            font-size: 1rem;
-            transition: border 0.3s ease;
-        }
-
-        input:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .total-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: bold;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            font-size: 1.2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .control-panel {
-            margin-top: 20px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .debug-output {
-            margin-top: 20px;
-            padding: 10px;
-            background: #f4f4f4;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            max-height: 200px;
-            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
 <body>
 <h1>Shein Sales Tracker</h1>
-<img src="D3.png" height="150" width="100">
 <div class="container">
+    <!-- Search Bar -->
+    <input type="text" id="searchBar" placeholder="Search by Customer Name..."/>
+
     <form id="salesForm">
         <input type="text" id="customerName" placeholder="Customer Name" required>
         <input type="tel" id="customerPhone" placeholder="Customer Phone (Max 8 digits)" pattern="\d{1,8}" maxlength="8"
@@ -144,6 +106,7 @@
         <input type="number" id="amountSpent" placeholder="Amount Spent (DT)" step="0.01" required>
         <button type="submit">Add Sale</button>
     </form>
+
     <table id="salesTable">
         <thead>
         <tr>
@@ -152,12 +115,12 @@
             <th>Customer Phone</th>
             <th>Amount Spent (DT)</th>
             <th>Amount with Tax (DT)</th>
-            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
+
     <div class="control-panel">
         <button id="viewData">View Raw Data</button>
         <button id="clearData">Clear All Data</button>
@@ -165,6 +128,7 @@
     </div>
     <div class="debug-output" id="debugOutput"></div>
 </div>
+
 <div class="total-container">
     <div id="totalAmount">Total Amount (No Tax): 0.00 EURO</div>
     <div id="totalWithTax">Total Tax Amount: 0.00 DT</div>
@@ -176,6 +140,7 @@
         const totalAmountDisplay = document.getElementById('totalAmount');
         const totalWithTaxDisplay = document.getElementById('totalWithTax');
         const debugOutput = document.getElementById('debugOutput');
+        const searchBar = document.getElementById('searchBar');
 
         let salesData = [];
         let totalAmount = 0;
@@ -200,33 +165,22 @@
         }
 
         // Update the table and totals
-        function updateTable() {
+        function updateTable(filter = '') {
             salesTableBody.innerHTML = '';
-            salesData.forEach((sale, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                        <td>${index + 1}</td>
-                        <td>${sale.name}</td>
-                        <td>${sale.phone}</td>
-                        <td>${sale.amount.toFixed(2)} EURO</td>
-                        <td>${sale.amountWithTax.toFixed(2)} DT</td>
-                        <td>
-                            <button class="edit-btn" data-index="${index}">Edit</button>
-                            <button class="delete-btn" data-index="${index}">Delete</button>
-                        </td>
-                    `;
-                salesTableBody.appendChild(row);
-            });
+            salesData
+                .filter(sale => sale.name.toLowerCase().includes(filter.toLowerCase()))
+                .forEach((sale, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                            <td>${index + 1}</td>
+                            <td>${sale.name}</td>
+                            <td>${sale.phone}</td>
+                            <td>${sale.amount.toFixed(2)} EURO</td>
+                            <td>${sale.amountWithTax.toFixed(2)} DT</td>
+                        `;
+                    salesTableBody.appendChild(row);
+                });
 
-            // Add event listeners for edit and delete buttons
-            document.querySelectorAll('.edit-btn').forEach(button => {
-                button.addEventListener('click', handleEdit);
-            });
-            document.querySelectorAll('.delete-btn').forEach(button => {
-                button.addEventListener('click', handleDelete);
-            });
-
-            // Update totals
             totalAmountDisplay.textContent = `Total Amount (No Tax): ${totalAmount.toFixed(2)} EURO`;
             totalWithTaxDisplay.textContent = `Total Tax Amount: ${totalTaxAmount.toFixed(2)} DT`;
         }
@@ -269,39 +223,11 @@
             }
         });
 
-        // Handle edit functionality
-        function handleEdit(event) {
-            const index = parseInt(event.target.dataset.index);
-            if (index >= 0 && index < salesData.length) {
-                const sale = salesData[index];
-
-                document.getElementById('customerName').value = sale.name;
-                document.getElementById('customerPhone').value = sale.phone;
-                document.getElementById('amountSpent').value = sale.amount;
-
-                totalAmount -= sale.amount;
-                totalTaxAmount -= sale.amount * 4.7;
-                salesData.splice(index, 1);
-
-                updateTable();
-                saveSalesData();
-            }
-        }
-
-        // Handle delete functionality
-        function handleDelete(event) {
-            const index = parseInt(event.target.dataset.index);
-            if (index >= 0 && index < salesData.length) {
-                const sale = salesData[index];
-
-                totalAmount -= sale.amount;
-                totalTaxAmount -= sale.amount * 4.7;
-                salesData.splice(index, 1);
-
-                updateTable();
-                saveSalesData();
-            }
-        }
+        // Handle search functionality
+        searchBar.addEventListener('input', function () {
+            const filter = searchBar.value.trim();
+            updateTable(filter);
+        });
 
         // View raw data
         document.getElementById('viewData').addEventListener('click', () => {
