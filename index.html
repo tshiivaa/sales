@@ -1,484 +1,382 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shein Sales Tracker</title>
+    <title>Gestion des Commandes - SHEIN Import</title>
     <style>
-        /* General Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Design amélioré avec une approche UI/UX moderne */
+
+        /* Variables de couleurs */
+        :root {
+            --primary-color: #007BFF; /* Bleu principal */
+            --secondary-color: #6C757D; /* Gris secondaire */
+            --success-color: #28A745; /* Vert pour les actions positives */
+            --error-color: #DC3545; /* Rouge pour les erreurs */
+            --background-color: #F8F9FA; /* Fond doux */
+            --text-color: #343A40; /* Texte principal */
+            --highlight-color: #E9ECEF; /* Soulignement léger */
         }
 
-        /* Body Styling */
+        /* Réinitialisation et base */
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f9d423, #ff4e50);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Form Container */
-        .container {
-            width: 90%;
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
             padding: 20px;
-            transition: all 0.3s ease;
+            color: var(--text-color);
         }
 
-        /* Form Styling */
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
         }
 
-        /* Form Group Styling */
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Formulaire */
         .form-group {
-            display: flex;
-            flex-direction: column;
+            margin-bottom: 20px;
         }
 
-        .form-group label {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #fff;
+        label {
+            display: block;
             margin-bottom: 5px;
-            text-transform: capitalize;
-        }
-
-        .form-group input {
-            padding: 12px 15px;
-            border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Button Styling */
-        .btn-primary {
-            padding: 12px 20px;
-            background: #ff4e50;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             font-weight: bold;
+            color: var(--secondary-color);
         }
 
-        .btn-primary:hover {
-            background: #f9d423;
-            transform: scale(1.05);
-        }
-
-        /* Control Panel Buttons */
-        .control-panel button {
-            padding: 10px 15px;
-            background: #28a745;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .control-panel button:hover {
-            background: #218838;
-            transform: scale(1.05);
-        }
-
-        .control-panel button.delete-btn {
-            background: #dc3545;
-        }
-
-        .control-panel button.delete-btn:hover {
-            background: #c82333;
-        }
-
-        * * * * * * * * * * * * * * * * * * * * SSSSSSSSSSAEEARCH * * * * * * * * * * * * * * * * * * * * *
-            /* Search Container */
-        .search-container {
-            position: relative;
+        input[type="text"], input[type="number"] {
             width: 100%;
-            max-width: 400px;
-            margin: 0 auto 20px;
-        }
-
-        /* Search Input */
-        #searchBar {
-            width: 100%;
-            padding: 12px 15px;
-            border: none;
-            border-radius: 25px; /* Rounded corners */
-            background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
-            color: #fff;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid var(--highlight-color);
+            border-radius: 8px;
             font-size: 1rem;
-            transition: all 0.3s ease;
+            transition: border-color 0.3s ease;
         }
 
-        #searchBar:focus {
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: var(--primary-color);
             outline: none;
-            background: rgba(255, 255, 255, 0.3); /* Slightly darker background on focus */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow on focus */
         }
 
-        /* Placeholder Styling */
-        #searchBar::placeholder {
-            color: rgba(255, 255, 255, 0.6); /* Lighter text for placeholder */
-        }
-
-        /* Search Icon Button */
-        .search-icon {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            background: none;
+        button {
+            padding: 12px 20px;
             border: none;
+            background-color: var(--primary-color);
+            color: white;
             cursor: pointer;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
         }
 
-        .search-icon svg {
-            fill: rgba(255, 255, 255, 0.8); /* Light icon color */
-            transition: all 0.3s ease;
+        button:hover {
+            background-color: #0056b3;
         }
 
-        .search-icon:hover svg {
-            fill: #fff; /* Brighter icon color on hover */
+        button.export-btn {
+            background-color: var(--success-color);
         }
 
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            #searchBar {
-                font-size: 0.9rem;
-                padding: 10px 12px;
-            }
-
-            .search-icon svg {
-                width: 18px;
-                height: 18px;
-            }
+        button.export-btn:hover {
+            background-color: #218838;
         }
 
-        * * * * * * * * * * * * * * * SalesTAB * * * * * * * * * * * * * * * * * * * * * * * * * *
-            /* Table Container */
-        #salesTable {
+        /* Tableau */
+        table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-top: 20px;
             font-size: 1rem;
-            color: #fff;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        /* Table Header */
-        #salesTable thead {
-            background: linear-gradient(135deg, #ff4e50, #f9d423);
-            color: #fff;
-        }
-
-        #salesTable th {
-            padding: 12px 15px;
+        table th, table td {
+            padding: 12px;
             text-align: left;
+            border-bottom: 1px solid var(--highlight-color);
+        }
+
+        table th {
+            background-color: var(--primary-color);
+            color: white;
+            border-bottom: none;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: var(--highlight-color);
+        }
+
+        .actions button {
+            padding: 6px 12px;
+            font-size: 0.875rem;
+        }
+
+        .actions button.edit-btn {
+            background-color: var(--success-color);
+        }
+
+        .actions button.delete-btn {
+            background-color: var(--error-color);
+        }
+
+        .actions button.edit-btn:hover {
+            background-color: #218838;
+        }
+
+        .actions button.delete-btn:hover {
+            background-color: #a71d2a;
+        }
+
+        /* Total */
+        .total {
             font-weight: bold;
-            font-size: 1rem;
+            margin-top: 20px;
+            text-align: right;
+            font-size: 1.25rem;
         }
 
-        /* Table Body */
-        #salesTable tbody tr {
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+        /* Recherche */
+        .search {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
         }
 
-        #salesTable tbody tr:nth-child(even) {
-            background: rgba(255, 255, 255, 0.07);
+        .search input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid var(--highlight-color);
+            border-radius: 8px;
         }
 
-        #salesTable tbody tr:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.01);
+        .search button {
+            padding: 10px 20px;
         }
 
-        #salesTable td {
-            padding: 12px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.95rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            #salesTable {
-                font-size: 0.9rem;
-            }
-
-            #salesTable th,
-            #salesTable td {
-                padding: 10px 12px;
-            }
+        /* Erreurs */
+        .error {
+            color: var(--error-color);
+            font-size: 0.875rem;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
-<h1>Shein Sales Tracker</h1>
+<h1>Gestion des Commandes - SHEIN Import</h1>
 <div class="container">
-    <!-- Search Bar -->
-    <div class="search-container">
-        <input
-                type="text"
-                id="searchBar"
-                placeholder="Search by Customer Name..."
-                autocomplete="off"
-        />
-        <button class="search-icon" type="button">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="#fff">
-                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-            </svg>
-        </button>
+    <!-- Formulaire -->
+    <div class="form-group">
+        <label for="clientName">Nom du Client:</label>
+        <input type="text" id="clientName" placeholder="Nom du client">
+        <div class="error" id="nameError"></div>
+    </div>
+    <div class="form-group">
+        <label for="phone">Numéro de Téléphone (8 chiffres):</label>
+        <input type="text" id="phone" maxlength="8" placeholder="Numéro de téléphone">
+        <div class="error" id="phoneError"></div>
+    </div>
+    <div class="form-group">
+        <label for="price">Prix du Colis (en DT):</label>
+        <input type="number" step="0.01" id="price" placeholder="Prix du colis">
+        <div class="error" id="priceError"></div>
+    </div>
+    <button onclick="addClient()">Ajouter Client</button>
+    <button onclick="exportClientsToJson()" class="export-btn">Exporter vers JSON</button>
+
+    <!-- Recherche -->
+    <div class="search">
+        <input type="text" id="search" onkeyup="searchClient()" placeholder="Rechercher par nom">
+        <button onclick="searchClient()">Rechercher</button>
     </div>
 
-    <form id="salesForm">
-        <div class="form-group">
-            <label for="customerName">Customer Name</label>
-            <input type="text" id="customerName" placeholder="Enter Customer Name" required>
-        </div>
-        <div class="form-group">
-            <label for="customerPhone">Customer Phone (Max 8 digits)</label>
-            <input type="tel" id="customerPhone" placeholder="Enter Phone Number" pattern="\d{1,8}" maxlength="8"
-                   required>
-        </div>
-        <div class="form-group">
-            <label for="amountSpent">Amount Spent (DT)</label>
-            <input type="number" id="amountSpent" placeholder="Enter Amount Spent" step="0.01" required>
-        </div>
-        <button type="submit" class="btn-primary">Add Sale</button>
-    </form>
-
-    <table id="salesTable">
+    <!-- Tableau -->
+    <table id="clientsTable">
         <thead>
         <tr>
-            <th>#</th>
-            <th>Customer Name</th>
-            <th>Customer Phone</th>
-            <th>Amount Spent (DT)</th>
-            <th>Amount with Tax (DT)</th>
+            <th>Nom</th>
+            <th>Téléphone</th>
+            <th>Prix Colis (DT)</th>
+            <th>Taxe Totale (DT)</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
 
-    <div class="control-panel">
-        <button id="viewData">View Raw Data</button>
-        <button id="clearData">Clear All Data</button>
-        <button id="exportData">Export Data</button>
-    </div>
-    <div class="debug-output" id="debugOutput"></div>
-</div>
-
-<div class="total-container">
-    <div id="totalAmount">Total Amount (No Tax): 0.00 EURO</div>
-    <div id="totalWithTax">Total Tax Amount: 0.00 DT</div>
+    <!-- Total -->
+    <div class="total">Total à Payer: <span id="totalAmount">0 DT</span></div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const salesTableBody = document.querySelector('#salesTable tbody');
-        const totalAmountDisplay = document.getElementById('totalAmount');
-        const totalWithTaxDisplay = document.getElementById('totalWithTax');
-        const debugOutput = document.getElementById('debugOutput');
-        const searchBar = document.getElementById('searchBar');
+    let clients = [];
+    const clientsTableBody = document.querySelector("#clientsTable tbody");
+    const totalAmountDisplay = document.getElementById("totalAmount");
 
-        let salesData = [];
-        let totalAmount = 0;
-        let totalTaxAmount = 0;
+    function addClient() {
+        const clientName = document.getElementById("clientName").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const price = parseFloat(document.getElementById("price").value);
 
-        // Load data from localStorage
-        function loadSalesData() {
-            const savedData = JSON.parse(localStorage.getItem('sheinSalesData')) || [];
-            if (savedData.length > 0) {
-                salesData = savedData;
-                salesData.forEach(sale => {
-                    totalAmount += sale.amount;
-                    totalTaxAmount += sale.amount * 4.7;
-                });
-            }
-            updateTable();
+        // Reset error messages
+        document.getElementById("nameError").textContent = "";
+        document.getElementById("phoneError").textContent = "";
+        document.getElementById("priceError").textContent = "";
+
+        let isValid = true;
+
+        if (!clientName || clientName.length < 3) {
+            document.getElementById("nameError").textContent = "Le nom doit contenir au moins 3 caractères.";
+            isValid = false;
         }
 
-        // Save data to localStorage
-        function saveSalesData() {
-            localStorage.setItem('sheinSalesData', JSON.stringify(salesData));
+        if (!/^\d{8}$/.test(phone)) {
+            document.getElementById("phoneError").textContent = "Le numéro de téléphone doit contenir exactement 8 chiffres.";
+            isValid = false;
         }
 
-        // Update the table and totals
-        function updateTable(filter = '') {
-            salesTableBody.innerHTML = '';
-            salesData
-                .filter(sale => sale.name.toLowerCase().includes(filter.toLowerCase()))
-                .forEach((sale, index) => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                            <td>${index + 1}</td>
-                            <td>${sale.name}</td>
-                            <td>${sale.phone}</td>
-                            <td>${sale.amount.toFixed(2)} EURO</td>
-                            <td>${sale.amountWithTax.toFixed(2)} DT</td>
-                        `;
-                    salesTableBody.appendChild(row);
-                });
-
-            totalAmountDisplay.textContent = `Total Amount (No Tax): ${totalAmount.toFixed(2)} EURO`;
-            totalWithTaxDisplay.textContent = `Total Tax Amount: ${totalTaxAmount.toFixed(2)} DT`;
+        if (isNaN(price) || price <= 0) {
+            document.getElementById("priceError").textContent = "Veuillez entrer un prix valide et supérieur à zéro.";
+            isValid = false;
         }
 
-        // Handle form submission
-        document.getElementById('salesForm').addEventListener('submit', function (event) {
-            event.preventDefault();
+        if (!isValid) return;
 
-            const customerName = document.getElementById('customerName').value.trim();
-            const customerPhone = document.getElementById('customerPhone').value.trim();
-            const amountSpent = parseFloat(document.getElementById('amountSpent').value);
+        const tax = price * 4.7;
+        const newClient = {id: Date.now(), name: clientName, phone, price, tax};
 
-            if (!/^\d{1,8}$/.test(customerPhone)) {
-                alert('Phone number must be up to 8 digits.');
-                return;
-            }
+        clients.push(newClient);
+        saveClients();
+        renderClients();
+        clearForm();
+    }
 
-            if (customerName && customerPhone && !isNaN(amountSpent)) {
-                const taxRate = 4.7;
-                const amountWithTax = amountSpent * taxRate;
+    function renderClients() {
+        clientsTableBody.innerHTML = "";
+        let total = 0;
 
-                salesData.push({
-                    name: customerName,
-                    phone: customerPhone,
-                    amount: amountSpent,
-                    amountWithTax: amountWithTax
-                });
+        clients.forEach(client => {
+            const row = document.createElement("tr");
 
-                totalAmount += amountSpent;
-                totalTaxAmount += amountSpent * taxRate;
-
-                document.getElementById('customerName').value = '';
-                document.getElementById('customerPhone').value = '';
-                document.getElementById('amountSpent').value = '';
-
-                updateTable();
-                saveSalesData();
-            } else {
-                alert('Please fill in all fields correctly.');
-            }
-        });
-
-        // Handle search functionality
-        searchBar.addEventListener('input', function () {
-            const filter = searchBar.value.trim();
-            updateTable(filter);
-        });
-
-        // View raw data
-        document.getElementById('viewData').addEventListener('click', () => {
-            debugOutput.textContent = JSON.stringify(salesData, null, 2);
-        });
-
-        // Clear all data
-        document.getElementById('clearData').addEventListener('click', () => {
-            salesData = [];
-            totalAmount = 0;
-            totalTaxAmount = 0;
-            salesTableBody.innerHTML = '';
-            debugOutput.textContent = '';
-            totalAmountDisplay.textContent = `Total Amount (No Tax): 0.00 EURO`;
-            totalWithTaxDisplay.textContent = `Total Tax Amount: 0.00 DT`;
-
-            localStorage.removeItem('sheinSalesData');
-        });
-
-        // Export data as HTML
-        document.getElementById('exportData').addEventListener('click', () => {
-            let htmlContent = `
-                    <html>
-                        <head>
-                            <meta charset="UTF-8">
-                            <title>Shein Sales Data</title>
-                        </head>
-                        <body>
-                            <h1>Shein Sales Data</h1>
-                            <table border="1">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Customer Name</th>
-                                        <th>Customer Phone</th>
-                                        <th>Amount Spent (DT)</th>
-                                        <th>Amount with Tax (DT)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+            row.innerHTML = `
+                    <td>${client.name}</td>
+                    <td>${client.phone}</td>
+                    <td>${client.price.toFixed(2)} DT</td>
+                    <td>${client.tax.toFixed(2)} DT</td>
+                    <td class="actions">
+                        <button class="edit-btn" onclick="editClient(${client.id})">Modifier</button>
+                        <button class="delete-btn" onclick="deleteClient(${client.id})">Supprimer</button>
+                    </td>
                 `;
 
-            salesData.forEach((sale, index) => {
-                htmlContent += `
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td>${sale.name}</td>
-                            <td>${sale.phone}</td>
-                            <td>${sale.amount.toFixed(2)}</td>
-                            <td>${sale.amountWithTax.toFixed(2)}</td>
-                        </tr>
-                    `;
-            });
-
-            htmlContent += `
-                                </tbody>
-                            </table>
-                        </body>
-                    </html>
-                `;
-
-            const blob = new Blob([htmlContent], {type: 'text/html'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'shein_sales_data.html';
-            a.click();
-            URL.revokeObjectURL(url);
+            clientsTableBody.appendChild(row);
+            total += client.tax;
         });
 
-        // Load data on page load
-        loadSalesData();
-    });
+        totalAmountDisplay.textContent = `${total.toFixed(2)} DT`;
+    }
+
+    function clearForm() {
+        document.getElementById("clientName").value = "";
+        document.getElementById("phone").value = "";
+        document.getElementById("price").value = "";
+        document.getElementById("nameError").textContent = "";
+        document.getElementById("phoneError").textContent = "";
+        document.getElementById("priceError").textContent = "";
+    }
+
+    function deleteClient(id) {
+        clients = clients.filter(client => client.id !== id);
+        saveClients();
+        renderClients();
+    }
+
+    function editClient(id) {
+        const clientToEdit = clients.find(client => client.id === id);
+
+        if (clientToEdit) {
+            document.getElementById("clientName").value = clientToEdit.name;
+            document.getElementById("phone").value = clientToEdit.phone;
+            document.getElementById("price").value = clientToEdit.price;
+
+            deleteClient(id);
+            renderClients();
+        }
+    }
+
+    function searchClient() {
+        const query = document.getElementById("search").value.toLowerCase();
+        const filteredClients = clients.filter(client =>
+            client.name.toLowerCase().includes(query)
+        );
+
+        clientsTableBody.innerHTML = "";
+        let total = 0;
+
+        filteredClients.forEach(client => {
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                    <td>${client.name}</td>
+                    <td>${client.phone}</td>
+                    <td>${client.price.toFixed(2)} DT</td>
+                    <td>${client.tax.toFixed(2)} DT</td>
+                    <td class="actions">
+                        <button class="edit-btn" onclick="editClient(${client.id})">Modifier</button>
+                        <button class="delete-btn" onclick="deleteClient(${client.id})">Supprimer</button>
+                    </td>
+                `;
+
+            clientsTableBody.appendChild(row);
+            total += client.tax;
+        });
+
+        totalAmountDisplay.textContent = `${total.toFixed(2)} DT`;
+    }
+
+    function saveClients() {
+        localStorage.setItem("clients", JSON.stringify(clients));
+    }
+
+    function loadClients() {
+        const savedClients = JSON.parse(localStorage.getItem("clients"));
+        if (savedClients) {
+            clients = savedClients;
+            renderClients();
+        }
+    }
+
+    function exportClientsToJson() {
+        if (clients.length === 0) {
+            alert("Aucun client à exporter.");
+            return;
+        }
+
+        const jsonData = JSON.stringify(clients, null, 2);
+        const blob = new Blob([jsonData], {type: "application/json"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "clients.json";
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    loadClients();
 </script>
 </body>
 </html>
