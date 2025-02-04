@@ -5,14 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shein Sales Tracker</title>
     <style>
-        /* General Form Styling */
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f9d423, #ff4e50);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Form Container */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        /* Form Styling */
         form {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            max-width: 400px;
-            width: 100%;
-            margin: 0 auto;
         }
 
         /* Form Group Styling */
@@ -56,6 +85,7 @@
             font-size: 1rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
         }
 
         .btn-primary:hover {
@@ -63,91 +93,30 @@
             transform: scale(1.05);
         }
 
-        /* General Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Body Styling */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f9d423, #ff4e50);
+        /* Control Panel Buttons */
+        .control-panel button {
+            padding: 10px 15px;
+            background: #28a745;
             color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Header Styling */
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Container Styling */
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            transition: all 0.3s ease;
-        }
-
-        /* Search Bar Styling */
-        #searchBar {
-            width: 100%;
-            max-width: 300px;
-            padding: 10px;
-            margin-bottom: 20px;
             border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        #searchBar:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.3);
+        .control-panel button:hover {
+            background: #218838;
+            transform: scale(1.05);
         }
 
-        /* Table Styling */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            font-size: 1rem;
-            color: #fff;
+        .control-panel button.delete-btn {
+            background: #dc3545;
         }
 
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        th {
-            background: rgba(255, 255, 255, 0.1);
-            font-weight: bold;
-        }
-
-        tr:nth-child(even) {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        tr:hover {
-            background: rgba(255, 255, 255, 0.1);
+        .control-panel button.delete-btn:hover {
+            background: #c82333;
         }
     </style>
 </head>
