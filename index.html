@@ -378,5 +378,94 @@
 
     loadClients();
 </script>
+<div class="container">
+    <!-- Formulaire reste inchangé -->
+    <button onclick="addClient()">Ajouter Client</button>
+    <button onclick="saveDataToFile()">Sauvegarder les Données</button>
+    <button onclick="loadDataFromFile()">Charger les Données</button>
+
+    <!-- Recherche et tableau restent inchangés -->
+</div>
+
+<script>
+    let clients = [];
+    const clientsTableBody = document.querySelector("#clientsTable tbody");
+    const totalAmountDisplay = document.getElementById("totalAmount");
+
+    // Fonction pour ajouter un client (restante inchangée)
+
+    // Fonction pour sauvegarder les données dans un fichier JSON
+    function saveDataToFile() {
+        if (clients.length === 0) {
+            alert("Aucune donnée à sauvegarder.");
+            return;
+        }
+
+        // Convertir les données en JSON
+        const jsonData = JSON.stringify(clients, null, 2);
+
+        // Créer un objet Blob pour le fichier JSON
+        const blob = new Blob([jsonData], {type: "application/json"});
+
+        // Créer un lien de téléchargement
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "clients_data.json"; // Nom du fichier
+        a.textContent = "Télécharger le fichier JSON";
+        a.style.display = "none";
+
+        // Ajouter le lien au DOM et déclencher le téléchargement
+        document.body.appendChild(a);
+        a.click();
+
+        // Nettoyer après le téléchargement
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        alert("Données sauvegardées avec succès !");
+    }
+
+    // Fonction pour charger les données depuis un fichier JSON
+    function loadDataFromFile() {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".json"; // Accepter uniquement les fichiers JSON
+
+        input.onchange = (event) => {
+            const file = event.target.files[0];
+            if (!file) {
+                alert("Aucun fichier sélectionné.");
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                try {
+                    const jsonData = JSON.parse(e.target.result);
+                    if (!Array.isArray(jsonData)) {
+                        throw new Error("Le fichier n'est pas au bon format.");
+                    }
+                    clients = jsonData;
+                    renderClients();
+                    alert("Données chargées avec succès !");
+                } catch (error) {
+                    alert("Erreur lors du chargement des données : " + error.message);
+                }
+            };
+
+            reader.onerror = () => {
+                alert("Une erreur est survenue lors de la lecture du fichier.");
+            };
+
+            reader.readAsText(file);
+        };
+
+        input.click(); // Ouvrir la boîte de dialogue de sélection de fichier
+    }
+
+    // Autres fonctions restent inchangées
+</script>
 </body>
 </html>
