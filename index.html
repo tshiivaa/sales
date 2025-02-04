@@ -5,6 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shein Sales Tracker</title>
     <style>
+        /* General Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Form Group Styling */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+            text-transform: capitalize;
+        }
+
+        .form-group input {
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Button Styling */
+        .btn-primary {
+            padding: 12px 20px;
+            background: #ff4e50;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #f9d423;
+            transform: scale(1.05);
+        }
+
         /* General Reset */
         * {
             margin: 0;
@@ -100,11 +158,20 @@
     <input type="text" id="searchBar" placeholder="Search by Customer Name..."/>
 
     <form id="salesForm">
-        <input type="text" id="customerName" placeholder="Customer Name" required>
-        <input type="tel" id="customerPhone" placeholder="Customer Phone (Max 8 digits)" pattern="\d{1,8}" maxlength="8"
-               required>
-        <input type="number" id="amountSpent" placeholder="Amount Spent (DT)" step="0.01" required>
-        <button type="submit">Add Sale</button>
+        <div class="form-group">
+            <label for="customerName">Customer Name</label>
+            <input type="text" id="customerName" placeholder="Enter Customer Name" required>
+        </div>
+        <div class="form-group">
+            <label for="customerPhone">Customer Phone (Max 8 digits)</label>
+            <input type="tel" id="customerPhone" placeholder="Enter Phone Number" pattern="\d{1,8}" maxlength="8"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="amountSpent">Amount Spent (DT)</label>
+            <input type="number" id="amountSpent" placeholder="Enter Amount Spent" step="0.01" required>
+        </div>
+        <button type="submit" class="btn-primary">Add Sale</button>
     </form>
 
     <table id="salesTable">
